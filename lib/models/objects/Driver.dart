@@ -1,0 +1,36 @@
+import 'dart:convert';
+
+import 'package:bus_information/abstracts/DatabaseObject.dart';
+import 'package:bus_information/models/enums/DriverStatus.dart';
+import 'package:bus_information/models/enums/ShiftWork.dart';
+
+class Driver implements DatabaseObject {
+  String name;
+  ShiftWork shiftWork;
+  DriverStatus status;
+
+  Driver({
+    this.name = '',
+    this.status = DriverStatus.active,
+    this.shiftWork = ShiftWork.morning,
+  });
+
+  factory Driver.fromString(String source) => Driver()..decode(source);
+
+  @override
+  decode(String source) {
+    Map data = jsonDecode(source);
+    name = data['name'];
+  }
+
+  @override
+  String encode() {
+    Map data = {
+      'name': name,
+    };
+    return jsonEncode(data);
+  }
+
+  @override
+  String get id => name;
+}
