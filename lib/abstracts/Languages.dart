@@ -1,17 +1,42 @@
-import 'package:flutter/material.dart';
+import 'package:bus_information/langueges/Fa.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class Languages {
+  static ValueNotifier<Languages> language = ValueNotifier(Fa());
 
-  static Languages of(BuildContext context) {
-    return Localizations.of<Languages>(context, Languages)!;
-  }
+  TextDirection get direction;
 
   String get appName;
+
+  String get name;
+
+  String get morningShift;
+
+  String get eveningShift;
+
+  String get firstOverTime;
+
+  String get secondOverTime;
+
+  String get shiftSwitching;
 
   String get drivers;
 
   String get buses;
 
-  String get labelSelectLanguage;
+  String get active;
 
+  String get inActive;
+
+  String get vacation;
+
+  String get coordination;
+
+  String get submit;
+
+  String get operationDone;
+
+  String get repeatedName;
+
+  String get shouldNotEmpty;
 }

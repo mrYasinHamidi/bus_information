@@ -27,27 +27,19 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(Languages.of(context).appName),
+          title: Text(Languages.language.value.appName),
           bottom: TabBar(
             indicatorColor: Colors.white,
             tabs: [
-              Tab(text: Languages.of(context).drivers, icon: const Icon(Icons.person)),
-              Tab(text: Languages.of(context).buses, icon: const Icon(Icons.bus_alert)),
+              Tab(text: Languages.language.value.drivers, icon: const Icon(Icons.person)),
+              Tab(text: Languages.language.value.buses, icon: const Icon(Icons.bus_alert)),
             ],
           ),
         ),
-        body: FutureBuilder(
-          future: DatabaseHelper.instance.init(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return TabBarView(children: [
-              _buildListView(PageType.driver),
-              _buildListView(PageType.bus),
-            ]);
-          },
-        ),
+        body: TabBarView(children: [
+         Container(color: Colors.red,),
+         Container(color: Colors.yellow,),
+        ]),
         floatingActionButton: FloatingActionButton(onPressed: _onAddClick, child: const Icon(Icons.add)),
       ),
     );
@@ -85,11 +77,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  @override
-  void dispose() {
-    DatabaseHelper.instance.dispose();
-    super.dispose();
-  }
 
   void _onAddClick() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {

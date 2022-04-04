@@ -20,6 +20,7 @@ dependencies:
   hive: ^2.1.0
   lottie: ^1.2.2
   hive_flutter: ^1.1.0
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:

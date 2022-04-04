@@ -86,4 +86,6 @@ class DatabaseHelper extends Disposable implements Observable {
 
   @override
   Map<String, Observer> observers = {};
+
+  bool containedName(String name) => Hive.box(Constants.driverBoxKey).containsKey(name.trim());
 }
