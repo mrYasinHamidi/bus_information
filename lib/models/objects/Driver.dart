@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bus_information/Constants.dart';
 import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/models/enums/DriverStatus.dart';
 import 'package:bus_information/models/enums/ShiftWork.dart';
@@ -33,4 +34,7 @@ class Driver implements DatabaseObject {
 
   @override
   String get id => name;
+
+  @override
+  String get boxKey => Constants.driverBoxKey;
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bus_information/Constants.dart';
 import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/models/enums/BusStatus.dart';
 
@@ -38,4 +39,7 @@ class Bus implements DatabaseObject {
 
   @override
   String get id => throw UnimplementedError();
+
+  @override
+  String get boxKey => Constants.busBoxKey;
 }
