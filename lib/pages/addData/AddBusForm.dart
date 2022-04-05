@@ -7,14 +7,14 @@ import 'package:bus_information/widgets/CustomDropDown.dart';
 import 'package:bus_information/widgets/CustomInputField.dart';
 import 'package:flutter/material.dart';
 
-class AddDataScreen extends StatefulWidget {
-  const AddDataScreen({Key? key}) : super(key: key);
+class AddBusForm extends StatefulWidget {
+  const AddBusForm({Key? key}) : super(key: key);
 
   @override
-  State<AddDataScreen> createState() => _AddDataScreenState();
+  State<AddBusForm> createState() => _AddDriverFormState();
 }
 
-class _AddDataScreenState extends State<AddDataScreen> {
+class _AddDriverFormState extends State<AddBusForm> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   late Size size;
   final Driver _driver = Driver();
@@ -22,49 +22,45 @@ class _AddDataScreenState extends State<AddDataScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: globalKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: CustomInputField(
-                  label: Languages.language.value.name,
-                  validator: _personNameValidator,
-                  onChange: _onPersonNameChange,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomDropDown(
-                  initializeIndex: 0,
-                  items: ShiftWork.values.asTextList,
-                  onChange: _onShiftWorkChange,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomDropDown(
-                  initializeIndex: 0,
-                  items: DriverStatus.values.asTextList,
-                  onChange: _onStatusChange,
-                ),
-              ),
-              SizedBox(
-                width: size.width * .5,
-                child: ElevatedButton(
-                  onPressed: _onSubmit,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.lightGreen,
-                  ),
-                  child: Text(Languages.language.value.submit),
-                ),
-              ),
-            ],
+    return Form(
+      key: globalKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: CustomInputField(
+              label: Languages.language.value.name,
+              validator: _personNameValidator,
+              onChange: _onPersonNameChange,
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomDropDown(
+              initializeIndex: 0,
+              items: ShiftWork.values.asTextList,
+              onChange: _onShiftWorkChange,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomDropDown(
+              initializeIndex: 0,
+              items: DriverStatus.values.asTextList,
+              onChange: _onStatusChange,
+            ),
+          ),
+          SizedBox(
+            width: size.width * .5,
+            child: ElevatedButton(
+              onPressed: _onSubmit,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.lightGreen,
+              ),
+              child: Text(Languages.language.value.submit),
+            ),
+          ),
+        ],
       ),
     );
   }

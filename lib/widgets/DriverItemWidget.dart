@@ -8,6 +8,6 @@ class DriverItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text(driver.name);
   }
 }

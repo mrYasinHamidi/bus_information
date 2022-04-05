@@ -39,4 +39,6 @@ abstract class Languages {
   String get repeatedName;
 
   String get shouldNotEmpty;
+
+  String get driverInformation;
 }

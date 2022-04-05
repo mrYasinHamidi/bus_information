@@ -56,4 +56,7 @@ class En extends Languages {
 
   @override
   String get shouldNotEmpty => 'Should Not Empty';
+
+  @override
+  String get driverInformation => 'Driver Information';
 }

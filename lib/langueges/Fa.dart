@@ -55,4 +55,7 @@ class Fa extends Languages {
 
   @override
   String get shouldNotEmpty => 'نباید خالی باشد';
+
+  @override
+  String get driverInformation => 'مشخصات راننده';
 }
