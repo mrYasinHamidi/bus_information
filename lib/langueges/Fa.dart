@@ -58,4 +58,28 @@ class Fa extends Languages {
 
   @override
   String get driverInformation => 'مشخصات راننده';
+
+  @override
+  String get busInformation => 'مشخصات اتوبوس';
+
+  @override
+  String get busNumber => 'شماره اتوبوس';
+
+  @override
+  String get driver => 'راننده';
+
+  @override
+  String get busStatus => 'وضعیت اتوبوس';
+
+  @override
+  String get driverStatus => 'وضعیت راننده';
+
+  @override
+  String get shiftWork => 'شیفت کاری';
+
+  @override
+  String get alternativeDriver => 'راننده جایگزین';
+
+  @override
+  String get repeatedNumber => 'شماره تکراری';
 }

@@ -50,5 +50,7 @@ class DatabaseHelper {
   void delete(DatabaseObject object) =>
       Hive.box(object.boxKey).delete(object.id);
 
-  bool containedName(String name) => Hive.box(Constants.driverBoxKey).containsKey(name.trim());
+  bool containName(String name) => Hive.box(Constants.driverBoxKey).containsKey(name.trim());
+
+  bool containBus(String number) => Hive.box(Constants.busBoxKey).containsKey(number.trim());
 }

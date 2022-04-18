@@ -59,4 +59,28 @@ class En extends Languages {
 
   @override
   String get driverInformation => 'Driver Information';
+
+  @override
+  String get busInformation => 'Bus Information';
+
+  @override
+  String get busNumber => 'Bus Number';
+
+  @override
+  String get driver => 'Driver';
+
+  @override
+  String get busStatus => 'Bus Status';
+
+  @override
+  String get driverStatus => 'Driver Status';
+
+  @override
+  String get shiftWork => 'Shift Work';
+
+  @override
+  String get alternativeDriver => 'Second Driver';
+
+  @override
+  String get repeatedNumber => 'Repeated Number';
 }

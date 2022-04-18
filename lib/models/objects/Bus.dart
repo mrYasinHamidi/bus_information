@@ -5,13 +5,13 @@ import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/models/enums/BusStatus.dart';
 
 class Bus implements DatabaseObject {
-  String? busNumber;
+  String busNumber;
   BusStatus? status;
   String? driverId;
   String? secondDriverId;
 
   Bus({
-    this.busNumber,
+    this.busNumber='',
     this.status,
   });
 
@@ -23,14 +23,14 @@ class Bus implements DatabaseObject {
     busNumber = data['busNumber'];
     driverId = data['driverId'];
     secondDriverId = data['secondDriverId'];
-    status = data['status'];
+    status = BusStatus.values[data['status'] ?? 0];
   }
 
   @override
   String encode() {
     Map data = {
       'busNumber': busNumber,
-      'status': status,
+      'status': status?.index,
       'driverId': driverId,
       'secondDriverId': secondDriverId,
     };
@@ -38,7 +38,7 @@ class Bus implements DatabaseObject {
   }
 
   @override
-  String get id => throw UnimplementedError();
+  String get id => busNumber;
 
   @override
   String get boxKey => Constants.busBoxKey;

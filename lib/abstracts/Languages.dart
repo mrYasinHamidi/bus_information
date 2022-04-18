@@ -41,4 +41,20 @@ abstract class Languages {
   String get shouldNotEmpty;
 
   String get driverInformation;
+
+  String get busInformation;
+
+  String get busNumber;
+
+  String get driver;
+
+  String get busStatus;
+
+  String get driverStatus;
+
+  String get shiftWork;
+
+  String get alternativeDriver;
+
+  String get repeatedNumber;
 }

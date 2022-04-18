@@ -1,10 +1,14 @@
 import 'package:bus_information/abstracts/Languages.dart';
+import 'package:bus_information/models/enums/BusStatus.dart';
 import 'package:bus_information/models/enums/DriverStatus.dart';
 import 'package:bus_information/models/enums/ShiftWork.dart';
+import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/CustomDropDown.dart';
 import 'package:bus_information/widgets/CustomInputField.dart';
+import 'package:bus_information/widgets/DriverChooser.dart';
+import 'package:bus_information/widgets/DriverPreviewer.dart';
 import 'package:flutter/material.dart';
 
 class AddBusForm extends StatefulWidget {
@@ -17,7 +21,9 @@ class AddBusForm extends StatefulWidget {
 class _AddDriverFormState extends State<AddBusForm> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   late Size size;
-  final Driver _driver = Driver();
+  final Bus _bus = Bus();
+  Driver? _driver;
+  Driver? _secondDriver;
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +35,37 @@ class _AddDriverFormState extends State<AddBusForm> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: CustomInputField(
-              label: Languages.language.value.name,
-              validator: _personNameValidator,
-              onChange: _onPersonNameChange,
+              icon: const Icon(Icons.numbers),
+              label: Languages.language.value.busNumber,
+              validator: _busNumberValidator,
+              onChange: _onBusNumberChange,
+              inputType: TextInputType.number,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomDropDown(
-              initializeIndex: 0,
-              items: ShiftWork.values.asTextList,
-              onChange: _onShiftWorkChange,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomDropDown(
-              initializeIndex: 0,
-              items: DriverStatus.values.asTextList,
+              label: Languages.language.value.busStatus,
+              items: BusStatus.values.asTextList,
               onChange: _onStatusChange,
             ),
           ),
+          Row(children: [
+            Expanded(
+              child: DriverPreviewer(
+                emptyTitle: Languages.language.value.driver,
+                driver: _driver,
+                onTap: _selectFirstDriver,
+              ),
+            ),
+            Expanded(
+              child: DriverPreviewer(
+                emptyTitle: Languages.language.value.alternativeDriver,
+                driver: _secondDriver,
+                onTap: _selectSecondDriver,
+              ),
+            ),
+          ]),
           SizedBox(
             width: size.width * .5,
             child: ElevatedButton(
@@ -65,16 +81,47 @@ class _AddDriverFormState extends State<AddBusForm> {
     );
   }
 
-  String? _personNameValidator(String? value) {
+  String? _busNumberValidator(String? value) {
     if (value == null) return '';
     if (value.isEmpty) return Languages.language.value.shouldNotEmpty;
-    if (DatabaseHelper.instance.containedName(value)) return Languages.language.value.repeatedName;
+    if (DatabaseHelper.instance.containBus(value)) return Languages.language.value.repeatedNumber;
     return null;
+  }
+
+  void _onBusNumberChange(String value) {
+    _bus.busNumber = value.trim();
+  }
+
+  void _onStatusChange(int value) {
+    _bus.status = BusStatus.values[value];
+  }
+
+  void _selectFirstDriver() async {
+    _driver = await _chooseDriver();
+    setState(() {});
+  }
+
+  void _selectSecondDriver() async {
+    _secondDriver = await _chooseDriver();
+    setState(() {});
+  }
+
+  Future<Driver?> _chooseDriver() async {
+    return await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => DriverChooser(
+          drivers: DatabaseHelper.instance.drivers,
+        ),
+      ),
+    );
   }
 
   void _onSubmit() {
     if (globalKey.currentState!.validate()) {
-      DatabaseHelper.instance.put(_driver);
+      _bus.driverId = _driver?.id;
+      _bus.secondDriverId = _secondDriver?.id;
+      DatabaseHelper.instance.put(_bus);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
@@ -86,17 +133,5 @@ class _AddDriverFormState extends State<AddBusForm> {
         ),
       );
     }
-  }
-
-  void _onPersonNameChange(String value) {
-    _driver.name = value.trim();
-  }
-
-  void _onShiftWorkChange(int value) {
-    _driver.shiftWork = ShiftWork.values[value];
-  }
-
-  void _onStatusChange(int value) {
-    _driver.status = DriverStatus.values[value];
   }
 }

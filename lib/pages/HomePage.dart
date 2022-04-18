@@ -1,13 +1,15 @@
 import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
+import 'package:bus_information/pages/addData/AddBusScreen.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/BusItemWidget.dart';
 import 'package:bus_information/widgets/DriverItemWidget.dart';
 import 'package:bus_information/widgets/LottieViewer.dart';
+import 'package:bus_information/widgets/expandable_fab.dart';
 import 'package:flutter/material.dart';
 
-import 'addData/AddDataScreen.dart';
+import 'addData/AddDriverScreen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,7 +38,25 @@ class _HomePageState extends State<HomePage> {
           _buildDriverList(),
           _buildBusList(),
         ]),
-        floatingActionButton: FloatingActionButton(onPressed: _onAddClick, child: const Icon(Icons.add)),
+        floatingActionButton: ExpandableFab(
+          distance: const [50, 100],
+          children: [
+            ActionButton(
+              icon: const Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              onPressed: _onPersonAddClick,
+            ),
+            ActionButton(
+                icon: const Icon(
+                  Icons.bus_alert,
+                  color: Colors.white,
+                ),
+                onPressed: _onBusAddClick),
+          ],
+          degrees: const [90, 90],
+        ),
       ),
     );
   }
@@ -87,12 +107,23 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onAddClick() {
+  void _onPersonAddClick() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return const AddDataScreen();
+          return const AddDriverScreen();
+        },
+      ),
+    );
+  }
+
+  void _onBusAddClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const AddBusScreen();
         },
       ),
     );

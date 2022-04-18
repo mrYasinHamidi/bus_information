@@ -37,16 +37,16 @@ class _AddDriverFormState extends State<AddDriverForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomDropDown(
-              initializeIndex: 0,
               items: ShiftWork.values.asTextList,
               onChange: _onShiftWorkChange,
+              label: Languages.language.value.shiftWork,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomDropDown(
-              initializeIndex: 0,
               items: DriverStatus.values.asTextList,
+              label: Languages.language.value.driverStatus,
               onChange: _onStatusChange,
             ),
           ),
@@ -68,7 +68,7 @@ class _AddDriverFormState extends State<AddDriverForm> {
   String? _personNameValidator(String? value) {
     if (value == null) return '';
     if (value.isEmpty) return Languages.language.value.shouldNotEmpty;
-    if (DatabaseHelper.instance.containedName(value)) return Languages.language.value.repeatedName;
+    if (DatabaseHelper.instance.containName(value)) return Languages.language.value.repeatedName;
     return null;
   }
 

@@ -22,13 +22,13 @@ class Driver implements DatabaseObject {
   decode(String source) {
     Map data = jsonDecode(source);
     name = data['name'];
+    status = DriverStatus.values[data['status'] ?? 0];
+    shiftWork = ShiftWork.values[data['shiftWork'] ?? 0];
   }
 
   @override
   String encode() {
-    Map data = {
-      'name': name,
-    };
+    Map data = {'name': name, 'status': status.index, 'shiftWork': shiftWork.index};
     return jsonEncode(data);
   }
 

@@ -20,6 +20,18 @@ extension DriverStatusEx on DriverStatus {
         return Languages.language.value.coordination;
     }
   }
+  Color get color {
+    switch (this) {
+      case DriverStatus.active:
+        return Colors.green;
+      case DriverStatus.inActive:
+        return Colors.red;
+      case DriverStatus.vacation:
+        return Colors.grey;
+      case DriverStatus.coordination:
+        return Colors.lightBlueAccent;
+    }
+  }
 }
 
 extension DriverStatusExe on List<DriverStatus> {

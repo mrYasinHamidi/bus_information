@@ -1,5 +1,3 @@
-import 'package:bus_information/abstracts/Languages.dart';
-import 'package:bus_information/models/enums/DriverStatus.dart';
 import 'package:flutter/material.dart';
 
 class CustomInputField extends StatelessWidget {
@@ -10,11 +8,15 @@ class CustomInputField extends StatelessWidget {
   final double radius;
   final String? label;
   final Icon icon;
+  final TextInputType? inputType;
   final String? Function(String?)? validator;
   final void Function(String)? onChange;
+  final bool readOnly;
+  final String? text;
 
   const CustomInputField({
     Key? key,
+    this.readOnly=false,this.text,
     this.fillColor = Colors.grey,
     this.activeBorderColor = Colors.blue,
     this.borderColor = Colors.black,
@@ -24,6 +26,7 @@ class CustomInputField extends StatelessWidget {
     this.icon = const Icon(Icons.person),
     this.validator,
     this.onChange,
+    this.inputType,
   }) : super(key: key);
 
   @override
@@ -55,8 +58,10 @@ class CustomInputField extends StatelessWidget {
           ),
         ),
       ),
+      keyboardType: inputType,
       validator: validator,
       onChanged: onChange,
+      readOnly: readOnly,
     );
   }
 }
