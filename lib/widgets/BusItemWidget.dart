@@ -1,6 +1,7 @@
 import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/enums/BusStatus.dart';
 import 'package:bus_information/models/objects/Bus.dart';
+import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:flutter/material.dart';
 
 class BusItemWidget extends StatelessWidget {
@@ -10,11 +11,23 @@ class BusItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(child: Text(bus.busNumber,overflow: TextOverflow.clip,),),
-      title: Text(bus.busNumber),
-      subtitle: Text(bus.status?.text ?? ''),
-      isThreeLine: true,
+    return Container(
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
+      height: 200,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [BoxShadow(blurRadius: 5, offset: Offset(0, 0), spreadRadius: -1, color: Colors.black38)]),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              DatabaseHelper.instance.getDriver
+            ],
+          )
+        ],
+      ),
     );
   }
 
