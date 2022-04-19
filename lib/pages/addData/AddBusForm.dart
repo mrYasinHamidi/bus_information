@@ -30,53 +30,56 @@ class _AddDriverFormState extends State<AddBusForm> {
     size = MediaQuery.of(context).size;
     return Form(
       key: globalKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: CustomInputField(
-              icon: const Icon(Icons.numbers),
-              label: Languages.language.value.busNumber,
-              validator: _busNumberValidator,
-              onChange: _onBusNumberChange,
-              inputType: TextInputType.number,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomDropDown(
-              label: Languages.language.value.busStatus,
-              items: BusStatus.values.asTextList,
-              onChange: _onStatusChange,
-            ),
-          ),
-          Row(children: [
-            Expanded(
-              child: DriverPreviewer(
-                emptyTitle: Languages.language.value.driver,
-                driver: _driver,
-                onTap: _selectFirstDriver,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: CustomInputField(
+                maxLength: 10,
+                icon: const Icon(Icons.numbers),
+                label: Languages.language.value.busNumber,
+                validator: _busNumberValidator,
+                onChange: _onBusNumberChange,
+                inputType: TextInputType.number,
               ),
             ),
-            Expanded(
-              child: DriverPreviewer(
-                emptyTitle: Languages.language.value.alternativeDriver,
-                driver: _secondDriver,
-                onTap: _selectSecondDriver,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomDropDown(
+                label: Languages.language.value.busStatus,
+                items: BusStatus.values.asTextList,
+                onChange: _onStatusChange,
               ),
             ),
-          ]),
-          SizedBox(
-            width: size.width * .5,
-            child: ElevatedButton(
-              onPressed: _onSubmit,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.lightGreen,
+            Row(children: [
+              Expanded(
+                child: DriverPreviewer(
+                  emptyTitle: Languages.language.value.driver,
+                  driver: _driver,
+                  onTap: _selectFirstDriver,
+                ),
               ),
-              child: Text(Languages.language.value.submit),
+              Expanded(
+                child: DriverPreviewer(
+                  emptyTitle: Languages.language.value.alternative,
+                  driver: _secondDriver,
+                  onTap: _selectSecondDriver,
+                ),
+              ),
+            ]),
+            SizedBox(
+              width: size.width * .5,
+              child: ElevatedButton(
+                onPressed: _onSubmit,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                ),
+                child: Text(Languages.language.value.submit),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -122,16 +125,7 @@ class _AddDriverFormState extends State<AddBusForm> {
       _bus.driverId = _driver?.id;
       _bus.secondDriverId = _secondDriver?.id;
       DatabaseHelper.instance.put(_bus);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text(Languages.language.value.operationDone),
-          action: SnackBarAction(
-            label: Languages.language.value.submit,
-            onPressed: () {},
-          ),
-        ),
-      );
+      Navigator.pop(context,true);
     }
   }
 }

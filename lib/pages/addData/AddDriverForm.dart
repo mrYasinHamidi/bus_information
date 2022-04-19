@@ -24,43 +24,45 @@ class _AddDriverFormState extends State<AddDriverForm> {
     size = MediaQuery.of(context).size;
     return Form(
       key: globalKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: CustomInputField(
-              label: Languages.language.value.name,
-              validator: _personNameValidator,
-              onChange: _onPersonNameChange,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomDropDown(
-              items: ShiftWork.values.asTextList,
-              onChange: _onShiftWorkChange,
-              label: Languages.language.value.shiftWork,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomDropDown(
-              items: DriverStatus.values.asTextList,
-              label: Languages.language.value.driverStatus,
-              onChange: _onStatusChange,
-            ),
-          ),
-          SizedBox(
-            width: size.width * .5,
-            child: ElevatedButton(
-              onPressed: _onSubmit,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.lightGreen,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: CustomInputField(
+                label: Languages.language.value.name,
+                validator: _personNameValidator,
+                onChange: _onPersonNameChange,
               ),
-              child: Text(Languages.language.value.submit),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomDropDown(
+                items: ShiftWork.values.asTextList,
+                onChange: _onShiftWorkChange,
+                label: Languages.language.value.shiftWork,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomDropDown(
+                items: DriverStatus.values.asTextList,
+                label: Languages.language.value.driverStatus,
+                onChange: _onStatusChange,
+              ),
+            ),
+            SizedBox(
+              width: size.width * .5,
+              child: ElevatedButton(
+                onPressed: _onSubmit,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.lightGreen,
+                ),
+                child: Text(Languages.language.value.submit),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -75,16 +77,7 @@ class _AddDriverFormState extends State<AddDriverForm> {
   void _onSubmit() {
     if (globalKey.currentState!.validate()) {
       DatabaseHelper.instance.put(_driver);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text(Languages.language.value.operationDone),
-          action: SnackBarAction(
-            label: Languages.language.value.submit,
-            onPressed: () {},
-          ),
-        ),
-      );
+      Navigator.pop(context,true);
     }
   }
 

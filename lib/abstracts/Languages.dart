@@ -57,4 +57,6 @@ abstract class Languages {
   String get alternativeDriver;
 
   String get repeatedNumber;
+
+  String get alternative;
 }

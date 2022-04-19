@@ -83,4 +83,7 @@ class En extends Languages {
 
   @override
   String get repeatedNumber => 'Repeated Number';
+
+  @override
+  String get alternative => 'Alternative';
 }

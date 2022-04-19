@@ -13,7 +13,7 @@ class CustomInputField extends StatelessWidget {
   final void Function(String)? onChange;
   final bool readOnly;
   final String? text;
-
+  final int? maxLength;
   const CustomInputField({
     Key? key,
     this.readOnly=false,this.text,
@@ -27,11 +27,13 @@ class CustomInputField extends StatelessWidget {
     this.validator,
     this.onChange,
     this.inputType,
+    this.maxLength,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
       decoration: InputDecoration(
         icon: icon,
         label: label == null ? null : Text(label ?? ''),

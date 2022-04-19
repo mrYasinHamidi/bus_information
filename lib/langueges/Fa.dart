@@ -82,4 +82,7 @@ class Fa extends Languages {
 
   @override
   String get repeatedNumber => 'شماره تکراری';
+
+  @override
+  String get alternative => 'جایگزین';
 }

@@ -11,6 +11,14 @@ extension BusStatusEx on BusStatus {
         return Languages.language.value.inActive;
     }
   }
+  Color get color {
+    switch (this) {
+      case BusStatus.active:
+        return Colors.green;
+      case BusStatus.deActive:
+        return Colors.red;
+    }
+  }
 }
 
 extension BusStatusExe on List<BusStatus> {

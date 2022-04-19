@@ -18,44 +18,48 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(Languages.language.value.appName),
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(text: Languages.language.value.drivers, icon: const Icon(Icons.person)),
-              Tab(text: Languages.language.value.buses, icon: const Icon(Icons.bus_alert)),
-            ],
-          ),
-        ),
-        body: TabBarView(children: [
-          _buildDriverList(),
-          _buildBusList(),
-        ]),
-        floatingActionButton: ExpandableFab(
-          distance: const [50, 100],
-          children: [
-            ActionButton(
-              icon: const Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-              onPressed: _onPersonAddClick,
+    return Scaffold(
+      body: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(Languages.language.value.appName),
+            bottom: TabBar(
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(text: Languages.language.value.drivers, icon: const Icon(Icons.person)),
+                Tab(text: Languages.language.value.buses, icon: const Icon(Icons.bus_alert)),
+              ],
             ),
-            ActionButton(
-                icon: const Icon(
-                  Icons.bus_alert,
-                  color: Colors.white,
+          ),
+          body: TabBarView(children: [
+            _buildDriverList(),
+            _buildBusList(),
+          ]),
+          floatingActionButton: SafeArea(
+            child: ExpandableFab(
+              distance: const [60, 120],
+              children: [
+                ActionButton(
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  onPressed: _onPersonAddClick,
                 ),
-                onPressed: _onBusAddClick),
-          ],
-          degrees: const [90, 90],
+                ActionButton(
+                    icon: const Icon(
+                      Icons.bus_alert,
+                      color: Colors.white,
+                    ),
+                    onPressed: _onBusAddClick),
+              ],
+              degrees: const [90, 90],
+            ),
+          ),
         ),
       ),
     );
@@ -107,15 +111,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onPersonAddClick() {
-    Navigator.push(
+  void _onPersonAddClick() async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return const AddDriverScreen();
         },
       ),
-    );
+    ).then((value) {
+      if (value ?? false) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(Languages.language.value.operationDone),
+            action: SnackBarAction(
+              label: Languages.language.value.submit,
+              onPressed: () {},
+            ),
+          ),
+        );
+      }
+    });
   }
 
   void _onBusAddClick() {
@@ -126,6 +143,19 @@ class _HomePageState extends State<HomePage> {
           return const AddBusScreen();
         },
       ),
-    );
+    ).then((value) {
+      if (value ?? false) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(Languages.language.value.operationDone),
+            action: SnackBarAction(
+              label: Languages.language.value.submit,
+              onPressed: () {},
+            ),
+          ),
+        );
+      }
+    });
   }
 }

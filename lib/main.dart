@@ -47,6 +47,7 @@ class _MyAppState extends State<MyApp> {
               child: child ?? const Scaffold(),
             );
           },
+          theme: ThemeData(fontFamily: 'iranSans'),
           title: Languages.language.value.appName,
           debugShowCheckedModeBanner: false,
           home: const HomePage(),
