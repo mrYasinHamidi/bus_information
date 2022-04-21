@@ -66,10 +66,10 @@ class _HomePageState extends State<HomePage>{
   }
 
   Widget _buildDriverList() {
-    List<Driver> drivers = DatabaseHelper.instance.drivers;
     return ValueListenableBuilder(
       valueListenable: DatabaseHelper.instance.driversListenable,
       builder: (context, box, child) {
+        List<Driver> drivers = DatabaseHelper.instance.drivers;
         if (drivers.isEmpty) {
           return Center(
             child: LottieViewer(
@@ -89,10 +89,10 @@ class _HomePageState extends State<HomePage>{
   }
 
   Widget _buildBusList() {
-    List<Bus> buses = DatabaseHelper.instance.buses;
     return ValueListenableBuilder(
       valueListenable: DatabaseHelper.instance.busesListenable,
       builder: (context, box, child) {
+        List<Bus> buses = DatabaseHelper.instance.buses;
         if (buses.isEmpty) {
           return Center(
             child: LottieViewer(

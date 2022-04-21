@@ -1,3 +1,4 @@
+import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/widgets/DriverItemWidget.dart';
 import 'package:bus_information/widgets/LottieViewer.dart';
@@ -17,7 +18,7 @@ class _DriverChooserState extends State<DriverChooser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(Languages.language.value.drivers),),
       body: Column(
         children: [
           Container(

@@ -68,13 +68,14 @@ class _AddDriverFormState extends State<AddBusForm> {
                 ),
               ),
             ]),
+            const SizedBox(height: 16),
             SizedBox(
               width: size.width * .5,
-              child: ElevatedButton(
+              child: OutlinedButton(
                 onPressed: _onSubmit,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.lightGreen,
-                ),
+                // style: ElevatedButton.styleFrom(
+                //   primary: Colors.lightGreen,
+                // ),
                 child: Text(Languages.language.value.submit),
               ),
             ),
