@@ -9,6 +9,8 @@ class Bus implements DatabaseObject {
   BusStatus? status;
   String? driverId;
   String? secondDriverId;
+  @override
+  DateTime creationTime = DateTime.now();
 
   Bus({
     this.busNumber='',
@@ -18,9 +20,16 @@ class Bus implements DatabaseObject {
   factory Bus.fromString(String source) => Bus()..decode(source);
 
   @override
+  String get id => busNumber;
+
+  @override
+  String get boxKey => Constants.busBoxKey;
+
+  @override
   decode(String source) {
     Map data = jsonDecode(source);
     busNumber = data['busNumber'];
+    creationTime = DateTime.parse(data['creationTime']);
     driverId = data['driverId'];
     secondDriverId = data['secondDriverId'];
     status = BusStatus.values[data['status'] ?? 0];
@@ -33,13 +42,9 @@ class Bus implements DatabaseObject {
       'status': status?.index,
       'driverId': driverId,
       'secondDriverId': secondDriverId,
+      'creationTime': creationTime.toString(),
     };
     return jsonEncode(data);
   }
 
-  @override
-  String get id => busNumber;
-
-  @override
-  String get boxKey => Constants.busBoxKey;
 }

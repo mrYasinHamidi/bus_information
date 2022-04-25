@@ -3,6 +3,7 @@ import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/abstracts/Disposable.dart';
 import 'package:bus_information/abstracts/Observable.dart';
 import 'package:bus_information/abstracts/Observer.dart';
+import 'package:bus_information/extensions.dart';
 import 'package:bus_information/models/events.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
@@ -26,30 +27,17 @@ class DatabaseHelper {
   }
 
   List<Driver> get drivers =>
-      Hive
-          .box(Constants.driverBoxKey)
-          .values
-          .map((e) => Driver.fromString(e))
-          .toList();
+      Hive.box(Constants.driverBoxKey).values.map((e) => Driver.fromString(e)).toList()..reSort();
 
-  List<Bus> get buses =>
-      Hive
-          .box(Constants.busBoxKey)
-          .values
-          .map((e) => Bus.fromString(e))
-          .toList();
-
+  List<Bus> get buses => Hive.box(Constants.busBoxKey).values.map((e) => Bus.fromString(e)).toList()..reSort();
 
   ValueListenable<Box> get busesListenable => Hive.box(Constants.busBoxKey).listenable();
 
   ValueListenable<Box> get driversListenable => Hive.box(Constants.driverBoxKey).listenable();
 
-  void put(DatabaseObject object) =>
-      Hive.box(object.boxKey).put(object.id, object.encode());
+  void put(DatabaseObject object) => Hive.box(object.boxKey).put(object.id, object.encode());
 
-
-  void delete(DatabaseObject object) =>
-      Hive.box(object.boxKey).delete(object.id);
+  void delete(DatabaseObject object) => Hive.box(object.boxKey).delete(object.id);
 
   bool containName(String name) => Hive.box(Constants.driverBoxKey).containsKey(name.trim());
 

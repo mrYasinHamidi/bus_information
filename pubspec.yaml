@@ -22,6 +22,7 @@ dependencies:
   hive_flutter: ^1.1.0
   animations: ^2.0.2
   flutter_svg: ^1.0.3
+  objectid: ^2.1.0
 
 dev_dependencies:
   flutter_test:

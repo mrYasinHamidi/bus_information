@@ -9,6 +9,8 @@ class Driver implements DatabaseObject {
   String name;
   ShiftWork shiftWork;
   DriverStatus status;
+  @override
+  DateTime creationTime = DateTime.now();
 
   Driver({
     this.name = '',
@@ -19,22 +21,30 @@ class Driver implements DatabaseObject {
   factory Driver.fromString(String source) => Driver()..decode(source);
 
   @override
+  String get id => name;
+
+  @override
+  String get boxKey => Constants.driverBoxKey;
+
+
+  @override
   decode(String source) {
     Map data = jsonDecode(source);
     name = data['name'];
     status = DriverStatus.values[data['status'] ?? 0];
     shiftWork = ShiftWork.values[data['shiftWork'] ?? 0];
+    creationTime = DateTime.parse(data['creationTime']);
   }
 
   @override
   String encode() {
-    Map data = {'name': name, 'status': status.index, 'shiftWork': shiftWork.index};
+    Map data = {
+      'name': name,
+      'status': status.index,
+      'shiftWork': shiftWork.index,
+      'creationTime': creationTime.toString(),
+    };
     return jsonEncode(data);
   }
 
-  @override
-  String get id => name;
-
-  @override
-  String get boxKey => Constants.driverBoxKey;
-}
+  }
