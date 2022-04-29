@@ -37,26 +37,16 @@ class CustomInputField extends StatelessWidget {
       decoration: InputDecoration(
         icon: icon,
         label: label == null ? null : Text(label ?? ''),
-        filled: true,
-        fillColor: fillColor.withAlpha(80),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: activeBorderColor,
             width: borderWidth,
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            topRight: Radius.circular(radius),
-          ),
         ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: borderColor,
             width: borderWidth,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            topRight: Radius.circular(radius),
           ),
         ),
       ),

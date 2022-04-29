@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/enums/DriverStatus.dart';
 import 'package:bus_information/models/enums/ShiftWork.dart';
@@ -8,7 +9,14 @@ import 'package:bus_information/widgets/CustomInputField.dart';
 import 'package:flutter/material.dart';
 
 class AddDriverForm extends StatefulWidget {
-  const AddDriverForm({Key? key}) : super(key: key);
+  final Function(Driver)? onSubmit;
+  final Duration splashDelay;
+
+  const AddDriverForm({
+    Key? key,
+    this.onSubmit,
+    this.splashDelay = const Duration(milliseconds: 150),
+  }) : super(key: key);
 
   @override
   State<AddDriverForm> createState() => _AddDriverFormState();
@@ -18,53 +26,83 @@ class _AddDriverFormState extends State<AddDriverForm> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   late Size size;
   final Driver _driver = Driver();
+  bool _show = false;
+
+
+  @override
+  void initState() {
+    Future.delayed(widget.splashDelay, () {
+      setState(() {
+        _show = true;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Form(
-      key: globalKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: CustomInputField(
-                label: Languages.language.value.name,
-                validator: _personNameValidator,
-                onChange: _onPersonNameChange,
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 300),
+      reverse: !_show,
+      transitionBuilder: (
+        Widget child,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+      ) {
+        return SharedAxisTransition(
+          fillColor: Colors.transparent,
+          child: child,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.vertical,
+        );
+      },
+      child: _show
+          ? Form(
+              key: globalKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CustomInputField(
+                        label: Languages.language.value.name,
+                        validator: _personNameValidator,
+                        onChange: _onPersonNameChange,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomDropDown(
+                        items: ShiftWork.values.asTextList,
+                        onChange: _onShiftWorkChange,
+                        label: Languages.language.value.shiftWork,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomDropDown(
+                        items: DriverStatus.values.asTextList,
+                        label: Languages.language.value.driverStatus,
+                        onChange: _onStatusChange,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    OutlinedButton(
+                      onPressed: _onSubmit,
+                      child: Text(
+                        Languages.language.value.submit,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomDropDown(
-                items: ShiftWork.values.asTextList,
-                onChange: _onShiftWorkChange,
-                label: Languages.language.value.shiftWork,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomDropDown(
-                items: DriverStatus.values.asTextList,
-                label: Languages.language.value.driverStatus,
-                onChange: _onStatusChange,
-              ),
-            ),
-            const SizedBox(height: 16,),
-            SizedBox(
-              width: size.width * .5,
-              child: OutlinedButton(
-                onPressed: _onSubmit,
-                // style: ElevatedButton.styleFrom(
-                //   primary: Colors.lightGreen,
-                // ),
-                child: Text(Languages.language.value.submit),
-              ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -78,7 +116,7 @@ class _AddDriverFormState extends State<AddDriverForm> {
   void _onSubmit() {
     if (globalKey.currentState!.validate()) {
       DatabaseHelper.instance.put(_driver);
-      Navigator.pop(context,true);
+      widget.onSubmit?.call(_driver);
     }
   }
 

@@ -42,4 +42,16 @@ class DatabaseHelper {
   bool containName(String name) => Hive.box(Constants.driverBoxKey).containsKey(name.trim());
 
   bool containBus(String number) => Hive.box(Constants.busBoxKey).containsKey(number.trim());
+
+  Bus? getBus(String id) {
+    String? source = Hive.box(Constants.busBoxKey).get(id);
+    if (source == null) return null;
+    return Bus.fromString(source);
+  }
+
+  Driver? getDriver(String id) {
+    String? source = Hive.box(Constants.driverBoxKey).get(id);
+    if (source == null) return null;
+    return Driver.fromString(source);
+  }
 }

@@ -59,4 +59,6 @@ abstract class Languages {
   String get repeatedNumber;
 
   String get alternative;
+
+  String get addProp;
 }

@@ -2,6 +2,7 @@ import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/pages/addData/AddBusScreen.dart';
+import 'package:bus_information/pages/addData/AddPropScreen.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/BusItemWidget.dart';
 import 'package:bus_information/widgets/DriverItemWidget.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,26 +40,9 @@ class _HomePageState extends State<HomePage>{
             _buildDriverList(),
             _buildBusList(),
           ]),
-          floatingActionButton: SafeArea(
-            child: ExpandableFab(
-              distance: const [60, 120],
-              children: [
-                ActionButton(
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  onPressed: _onPersonAddClick,
-                ),
-                ActionButton(
-                    icon: const Icon(
-                      Icons.bus_alert,
-                      color: Colors.white,
-                    ),
-                    onPressed: _onBusAddClick),
-              ],
-              degrees: const [90, 90],
-            ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: _onPersonAddClick,
+            child: const Icon(Icons.add),
           ),
         ),
       ),
@@ -116,7 +100,7 @@ class _HomePageState extends State<HomePage>{
       context,
       MaterialPageRoute(
         builder: (context) {
-          return const AddDriverScreen();
+          return const AddPropScreen();
         },
       ),
     ).then((value) {
@@ -135,27 +119,4 @@ class _HomePageState extends State<HomePage>{
     });
   }
 
-  void _onBusAddClick() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return const AddBusScreen();
-        },
-      ),
-    ).then((value) {
-      if (value ?? false) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: Text(Languages.language.value.operationDone),
-            action: SnackBarAction(
-              label: Languages.language.value.submit,
-              onPressed: () {},
-            ),
-          ),
-        );
-      }
-    });
-  }
 }

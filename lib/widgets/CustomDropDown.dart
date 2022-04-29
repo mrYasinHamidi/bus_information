@@ -60,32 +60,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
-      isDense: true,
       validator: widget.validator,
-      isExpanded: true,
+      focusColor: Colors.transparent,
       decoration: InputDecoration(
-        filled: true,
-        label: widget.label == null ? null : Text(widget.label ?? ''),
-        fillColor: widget.fillColor.withAlpha(80),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.activeBorderColor,
-            width: widget.borderWidth,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(widget.radius),
-            topRight: Radius.circular(widget.radius),
-          ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        label: widget.label == null ? null : Text(widget.label ?? '',style: const TextStyle(color: Colors.black),),
+        focusedBorder: const OutlineInputBorder(
         ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor,
-            width: widget.borderWidth,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(widget.radius),
-            topRight: Radius.circular(widget.radius),
-          ),
+        enabledBorder: const OutlineInputBorder(
         ),
       ),
       value: _value,

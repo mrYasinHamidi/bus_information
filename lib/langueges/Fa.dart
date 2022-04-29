@@ -85,4 +85,7 @@ class Fa extends Languages {
 
   @override
   String get alternative => 'جایگزین';
+
+  @override
+  String get addProp => 'افزودن مشخصه';
 }

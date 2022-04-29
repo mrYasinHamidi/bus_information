@@ -1,10 +1,8 @@
-import 'package:bus_information/Constants.dart';
 import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/pages/HomePage.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
+import 'package:bus_information/styles/AppThemes.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
 
 void main() async {
   Future init() async {
@@ -47,7 +45,9 @@ class _MyAppState extends State<MyApp> {
               child: child ?? const Scaffold(),
             );
           },
-          theme: ThemeData(fontFamily: 'iranSans'),
+          theme: AppThemes.themeData(false, context),
+          darkTheme: AppThemes.themeData(true, context),
+          themeMode: ThemeMode.system,
           title: Languages.language.value.appName,
           debugShowCheckedModeBanner: false,
           home: const HomePage(),
@@ -56,4 +56,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

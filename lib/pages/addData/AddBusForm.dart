@@ -111,22 +111,22 @@ class _AddDriverFormState extends State<AddBusForm> {
   }
 
   Future<Driver?> _chooseDriver() async {
-    return await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => DriverChooser(
-          drivers: DatabaseHelper.instance.drivers,
-        ),
-      ),
-    );
+    // return await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) => ItemChooser(
+    //       drivers: DatabaseHelper.instance.drivers,
+    //     ),
+    //   ),
+    // );
   }
 
   void _onSubmit() {
     if (globalKey.currentState!.validate()) {
-      _bus.driverId = _driver?.id;
-      _bus.secondDriverId = _secondDriver?.id;
-      DatabaseHelper.instance.put(_bus);
-      Navigator.pop(context,true);
+      // _bus.driverId = _driver?.id;
+      // _bus.secondDriverId = _secondDriver?.id;
+      // DatabaseHelper.instance.put(_bus);
+      // Navigator.pop(context,true);
     }
   }
 }
