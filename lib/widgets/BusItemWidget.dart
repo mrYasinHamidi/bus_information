@@ -1,8 +1,5 @@
 import 'package:bus_information/models/enums/BusStatus.dart';
-import 'package:bus_information/models/enums/DriverStatus.dart';
-import 'package:bus_information/models/enums/ShiftWork.dart';
 import 'package:bus_information/models/objects/Bus.dart';
-import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/widgets/Dot.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +12,7 @@ class BusItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const CircleAvatar(
-        child: Icon(Icons.person),
+        child: Icon(Icons.directions_bus),
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

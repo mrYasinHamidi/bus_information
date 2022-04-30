@@ -7,42 +7,21 @@ import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/Dot.dart';
 import 'package:flutter/material.dart';
 
-class PropItemWidget extends StatefulWidget {
+class PropItemWidget extends StatelessWidget {
   final Prop prop;
 
   const PropItemWidget(this.prop, {Key? key}) : super(key: key);
 
-  @override
-  State<PropItemWidget> createState() => _PropItemWidgetState();
-}
+  Driver? get _driver => DatabaseHelper.instance.getDriver(prop.driverId ?? '');
 
-class _PropItemWidgetState extends State<PropItemWidget> {
-  Driver? _firstDriver;
-  Driver? _secondDriver;
-  Bus? _bus;
+  Driver? get _secondDriver => DatabaseHelper.instance.getDriver(prop.driverId ?? '');
 
-  @override
-  void initState() {
-    _init();
-    super.initState();
-  }
-
-  void _init() {
-    if (widget.prop.driverId != null) {
-      _firstDriver = DatabaseHelper.instance.getDriver(widget.prop.driverId!);
-    }
-    if (widget.prop.secondDriverId != null) {
-      _secondDriver = DatabaseHelper.instance.getDriver(widget.prop.secondDriverId!);
-    }
-    if (widget.prop.busId != null) {
-      _bus = DatabaseHelper.instance.getBus(widget.prop.busId!);
-    }
-  }
+  Bus? get _bus => DatabaseHelper.instance.getBus(prop.busId ?? '');
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,12 +29,12 @@ class _PropItemWidgetState extends State<PropItemWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildProperty(Languages.language.value.busNumber, _bus?.busNumber ?? ''),
-              if (_bus != null) Dot(color: _bus!.status.color),
+              _buildProperty(Languages.language.value.busNumber, _bus?.busNumber??''),
+              Dot(color: _bus?.status.color),
             ],
           ),
           const SizedBox(height: 4),
-          _buildProperty(Languages.language.value.busStatus, _bus?.status.text ?? ''),
+          _buildProperty(Languages.language.value.busStatus, _bus?.status.text??''),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -67,18 +46,16 @@ class _PropItemWidgetState extends State<PropItemWidget> {
                       radius: 18,
                       child: Icon(Icons.person),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 4),
                     horizontalTitleGap: 8,
                     minVerticalPadding: 4,
-                    title: Text(_firstDriver?.id ?? ''),
+                    title: Text(_driver?.name ?? ''),
                     subtitle: Text(Languages.language.value.driver),
                     dense: true,
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 8,
-              ),
+              SizedBox(width: 8,),
               Expanded(
                 child: Container(
                   decoration: _decoration(),
@@ -87,7 +64,7 @@ class _PropItemWidgetState extends State<PropItemWidget> {
                       child: Icon(Icons.person),
                       radius: 18,
                     ),
-                    title: Text(_secondDriver?.id ?? ''),
+                    title: Text(_secondDriver?.name ?? ''),
                     subtitle: Text(Languages.language.value.alternativeDriver),
                     dense: true,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 4),
@@ -117,10 +94,7 @@ class _PropItemWidgetState extends State<PropItemWidget> {
       children: [
         Text(name),
         const Text(' : '),
-        Text(
-          value,
-          overflow: TextOverflow.ellipsis,
-        ),
+        Text(value,overflow: TextOverflow.ellipsis,),
       ],
     );
   }

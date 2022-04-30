@@ -1,12 +1,15 @@
+import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/abstracts/Languages.dart';
+import 'package:bus_information/models/enums/ObjectType.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
+import 'package:bus_information/models/objects/Prop.dart';
 import 'package:bus_information/pages/addData/AddBusScreen.dart';
-import 'package:bus_information/pages/addData/AddPropScreen.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/BusItemWidget.dart';
 import 'package:bus_information/widgets/DriverItemWidget.dart';
 import 'package:bus_information/widgets/LottieViewer.dart';
+import 'package:bus_information/widgets/PropItemWidget.dart';
 import 'package:bus_information/widgets/expandable_fab.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: Text(Languages.language.value.appName),
@@ -32,29 +35,48 @@ class _HomePageState extends State<HomePage> {
               indicatorColor: Colors.white,
               tabs: [
                 Tab(text: Languages.language.value.drivers, icon: const Icon(Icons.person)),
-                Tab(text: Languages.language.value.buses, icon: const Icon(Icons.bus_alert)),
+                Tab(text: Languages.language.value.drivers, icon: const Icon(Icons.person)),
+                Tab(text: Languages.language.value.buses, icon: const Icon(Icons.directions_bus)),
               ],
             ),
           ),
           body: TabBarView(children: [
-            _buildDriverList(),
-            _buildBusList(),
+            _buildItemList(ObjectType.prop),
+            _buildItemList(ObjectType.driver),
+            _buildItemList(ObjectType.bus),
           ]),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _onAddClick,
-            child: const Icon(Icons.add),
+          floatingActionButton: SafeArea(
+            child: ExpandableFab(
+              distance: const [60, 120],
+              children: [
+                ActionButton(
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  onPressed: _onPersonAddClick,
+                ),
+                ActionButton(
+                    icon: const Icon(
+                      Icons.bus_alert,
+                      color: Colors.white,
+                    ),
+                    onPressed: _onBusAddClick),
+              ],
+              degrees: const [90, 90],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildDriverList() {
+  Widget _buildItemList(ObjectType type) {
     return ValueListenableBuilder(
-      valueListenable: DatabaseHelper.instance.driversListenable,
+      valueListenable: DatabaseHelper.instance.getListenable(type),
       builder: (context, box, child) {
-        List<Driver> drivers = DatabaseHelper.instance.drivers;
-        if (drivers.isEmpty) {
+        List<DatabaseObject> objects = DatabaseHelper.instance.getItems(type);
+        if (objects.isEmpty) {
           return Center(
             child: LottieViewer(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -63,44 +85,28 @@ class _HomePageState extends State<HomePage> {
           );
         }
         return ListView.builder(
-          itemCount: drivers.length,
+          itemCount: objects.length,
           itemBuilder: (context, index) {
-            return DriverItemWidget(drivers[index]);
+            switch (type) {
+              case ObjectType.bus:
+                return BusItemWidget(objects[index] as Bus);
+              case ObjectType.driver:
+                return DriverItemWidget(objects[index] as Driver);
+              case ObjectType.prop:
+                return PropItemWidget(objects[index] as Prop);
+            }
           },
         );
       },
     );
   }
 
-  Widget _buildBusList() {
-    return ValueListenableBuilder(
-      valueListenable: DatabaseHelper.instance.busesListenable,
-      builder: (context, box, child) {
-        List<Bus> buses = DatabaseHelper.instance.buses;
-        if (buses.isEmpty) {
-          return Center(
-            child: LottieViewer(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.5,
-            ),
-          );
-        }
-        return ListView.builder(
-          itemCount: buses.length,
-          itemBuilder: (context, index) {
-            return BusItemWidget(buses[index]);
-          },
-        );
-      },
-    );
-  }
-
-  void _onAddClick() async {
+  void _onPersonAddClick() async {
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return const AddPropScreen();
+          return const AddDriverScreen();
         },
       ),
     ).then((value) {
@@ -119,4 +125,27 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _onBusAddClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const AddBusScreen();
+        },
+      ),
+    ).then((value) {
+      if (value ?? false) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(Languages.language.value.operationDone),
+            action: SnackBarAction(
+              label: Languages.language.value.submit,
+              onPressed: () {},
+            ),
+          ),
+        );
+      }
+    });
+  }
 }
