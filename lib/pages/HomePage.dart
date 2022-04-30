@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             _buildBusList(),
           ]),
           floatingActionButton: FloatingActionButton(
-            onPressed: _onPersonAddClick,
+            onPressed: _onAddClick,
             child: const Icon(Icons.add),
           ),
         ),
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onPersonAddClick() async {
+  void _onAddClick() async {
     await Navigator.push(
       context,
       MaterialPageRoute(

@@ -12,7 +12,11 @@ class Prop implements DatabaseObject {
   String? secondDriverId;
   DateTime time = DateTime.now();
 
-  Prop();
+  Prop({
+    this.busId,
+    this.secondDriverId,
+    this.driverId,
+  });
 
   factory Prop.fromString(String source) => Prop()..decode(source);
 

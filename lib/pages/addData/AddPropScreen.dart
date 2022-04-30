@@ -2,6 +2,7 @@ import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/enums/ObjectType.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
+import 'package:bus_information/models/objects/Prop.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/BusPreviewr.dart';
 import 'package:bus_information/widgets/DriverChooser.dart';
@@ -25,6 +26,12 @@ class _AddPropScreenState extends State<AddPropScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(Languages.language.value.addProp),
+        actions: [
+          IconButton(
+            onPressed: _submit,
+            icon: const Icon(Icons.done),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,7 +64,7 @@ class _AddPropScreenState extends State<AddPropScreen> {
     );
   }
 
-  void _selectBus() async{
+  void _selectBus() async {
     _bus = await _chooseBus();
     setState(() {});
   }
@@ -96,4 +103,13 @@ class _AddPropScreenState extends State<AddPropScreen> {
     );
   }
 
+  void _submit() {
+    Prop prop = Prop(
+      busId: _bus?.id,
+      driverId: _firstDriver?.id,
+      secondDriverId: _secondDriver?.id,
+    );
+    DatabaseHelper.instance.put(prop);
+    Navigator.pop(context,true);
+  }
 }

@@ -24,6 +24,7 @@ class DatabaseHelper {
     await Hive.initFlutter();
     await Hive.openBox(Constants.driverBoxKey);
     await Hive.openBox(Constants.busBoxKey);
+    await Hive.openBox(Constants.propBoxKey);
   }
 
   List<Driver> get drivers =>
