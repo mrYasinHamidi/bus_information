@@ -56,7 +56,7 @@ class BusPreviewer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
-              Icons.person_rounded,
+              Icons.bus_alert,
               size: 60,
               color: Colors.black38,
             ),

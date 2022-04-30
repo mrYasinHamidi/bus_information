@@ -35,7 +35,8 @@ class CustomInputField extends StatelessWidget {
     return TextFormField(
       maxLength: maxLength,
       decoration: InputDecoration(
-        icon: icon,
+        // icon: icon,
+        prefixIcon: icon,
         label: label == null ? null : Text(label ?? ''),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(

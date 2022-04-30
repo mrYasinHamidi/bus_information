@@ -42,7 +42,9 @@ class _AddButtonDialogState extends State<AddButtonDialog> {
     if (_isOpen) {
       switch(widget.type){
         case ObjectType.bus:
-          return const AddBusForm(
+          return AddBusForm(
+            onSubmit: _onSubmit,
+            splashDelay: _duration,
           );
         case ObjectType.driver:
           return AddDriverForm(
@@ -105,8 +107,8 @@ class _AddButtonDialogState extends State<AddButtonDialog> {
     });
   }
 
-  _onSubmit(Driver driver) {
+  _onSubmit(DatabaseObject object) {
     _close();
-    widget.onAddItem?.call(driver);
+    widget.onAddItem?.call(object);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:bus_information/abstracts/Languages.dart';
 import 'package:bus_information/models/enums/BusStatus.dart';
 import 'package:bus_information/models/enums/DriverStatus.dart';
@@ -12,7 +13,14 @@ import 'package:bus_information/widgets/DriverPreviewer.dart';
 import 'package:flutter/material.dart';
 
 class AddBusForm extends StatefulWidget {
-  const AddBusForm({Key? key}) : super(key: key);
+  final Function(Bus)? onSubmit;
+  final Duration splashDelay;
+
+  const AddBusForm({
+    Key? key,
+    this.onSubmit,
+    this.splashDelay = const Duration(milliseconds: 150),
+  }) : super(key: key);
 
   @override
   State<AddBusForm> createState() => _AddDriverFormState();
@@ -22,67 +30,84 @@ class _AddDriverFormState extends State<AddBusForm> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   late Size size;
   final Bus _bus = Bus();
-  Driver? _driver;
-  Driver? _secondDriver;
+  bool _show = false;
+
+  @override
+  void initState() {
+    Future.delayed(widget.splashDelay, () {
+      setState(() {
+        _show = true;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Form(
-      key: globalKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: CustomInputField(
-                maxLength: 10,
-                icon: const Icon(Icons.numbers),
-                label: Languages.language.value.busNumber,
-                validator: _busNumberValidator,
-                onChange: _onBusNumberChange,
-                inputType: TextInputType.number,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomDropDown(
-                label: Languages.language.value.busStatus,
-                items: BusStatus.values.asTextList,
-                onChange: _onStatusChange,
-              ),
-            ),
-            Row(children: [
-              Expanded(
-                child: DriverPreviewer(
-                  emptyTitle: Languages.language.value.driver,
-                  driver: _driver,
-                  onTap: _selectFirstDriver,
-                ),
-              ),
-              Expanded(
-                child: DriverPreviewer(
-                  emptyTitle: Languages.language.value.alternative,
-                  driver: _secondDriver,
-                  onTap: _selectSecondDriver,
-                ),
-              ),
-            ]),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: size.width * .5,
-              child: OutlinedButton(
-                onPressed: _onSubmit,
-                // style: ElevatedButton.styleFrom(
-                //   primary: Colors.lightGreen,
-                // ),
-                child: Text(Languages.language.value.submit),
-              ),
-            ),
-          ],
+    return Column(
+      children: [
+        PageTransitionSwitcher(
+          duration: const Duration(milliseconds: 300),
+          reverse: !_show,
+          transitionBuilder: (
+              Widget child,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              ) {
+            return SharedAxisTransition(
+              fillColor: Colors.transparent,
+              child: child,
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.vertical,
+            );
+          },
+          child: _show
+              ? _form
+              : const SizedBox(),
         ),
-      ),
+      ],
     );
+  }
+
+  Form get _form {
+    return Form(
+          key: globalKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: CustomInputField(
+                    maxLength: 10,
+                    icon: const Icon(Icons.bus_alert),
+                    label: Languages.language.value.busNumber,
+                    validator: _busNumberValidator,
+                    onChange: _onBusNumberChange,
+                    inputType: TextInputType.number,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomDropDown(
+                    label: Languages.language.value.busStatus,
+                    items: BusStatus.values.asTextList,
+                    onChange: _onStatusChange,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton(
+                  onPressed: _onSubmit,
+                  // style: ElevatedButton.styleFrom(
+                  //   primary: Colors.lightGreen,
+                  // ),
+                  child: Text(Languages.language.value.submit),
+                ),
+              ],
+            ),
+          ),
+        );
   }
 
   String? _busNumberValidator(String? value) {
@@ -100,33 +125,10 @@ class _AddDriverFormState extends State<AddBusForm> {
     _bus.status = BusStatus.values[value];
   }
 
-  void _selectFirstDriver() async {
-    _driver = await _chooseDriver();
-    setState(() {});
-  }
-
-  void _selectSecondDriver() async {
-    _secondDriver = await _chooseDriver();
-    setState(() {});
-  }
-
-  Future<Driver?> _chooseDriver() async {
-    // return await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (BuildContext context) => ItemChooser(
-    //       drivers: DatabaseHelper.instance.drivers,
-    //     ),
-    //   ),
-    // );
-  }
-
   void _onSubmit() {
     if (globalKey.currentState!.validate()) {
-      // _bus.driverId = _driver?.id;
-      // _bus.secondDriverId = _secondDriver?.id;
-      // DatabaseHelper.instance.put(_bus);
-      // Navigator.pop(context,true);
+      DatabaseHelper.instance.put(_bus);
+      widget.onSubmit?.call(_bus);
     }
   }
 }

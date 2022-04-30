@@ -59,51 +59,55 @@ class _AddDriverFormState extends State<AddDriverForm> {
         );
       },
       child: _show
-          ? Form(
-              key: globalKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: CustomInputField(
-                        label: Languages.language.value.name,
-                        validator: _personNameValidator,
-                        onChange: _onPersonNameChange,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomDropDown(
-                        items: ShiftWork.values.asTextList,
-                        onChange: _onShiftWorkChange,
-                        label: Languages.language.value.shiftWork,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomDropDown(
-                        items: DriverStatus.values.asTextList,
-                        label: Languages.language.value.driverStatus,
-                        onChange: _onStatusChange,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    OutlinedButton(
-                      onPressed: _onSubmit,
-                      child: Text(
-                        Languages.language.value.submit,
-                        style: const TextStyle(color: Colors.white70),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? _form
           : const SizedBox(),
     );
+  }
+
+  Form get _form {
+    return Form(
+            key: globalKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: CustomInputField(
+                      label: Languages.language.value.name,
+                      validator: _personNameValidator,
+                      onChange: _onPersonNameChange,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomDropDown(
+                      items: ShiftWork.values.asTextList,
+                      onChange: _onShiftWorkChange,
+                      label: Languages.language.value.shiftWork,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomDropDown(
+                      items: DriverStatus.values.asTextList,
+                      label: Languages.language.value.driverStatus,
+                      onChange: _onStatusChange,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  OutlinedButton(
+                    onPressed: _onSubmit,
+                    child: Text(
+                      Languages.language.value.submit,
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 
   String? _personNameValidator(String? value) {
