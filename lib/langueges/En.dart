@@ -89,4 +89,7 @@ class En extends Languages {
 
   @override
   String get addProp => 'Add Property';
+
+  @override
+  String get props => 'Properties';
 }

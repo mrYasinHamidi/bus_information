@@ -88,4 +88,7 @@ class Fa extends Languages {
 
   @override
   String get addProp => 'افزودن مشخصه';
+
+  @override
+  String get props => 'مشخصه ها';
 }
