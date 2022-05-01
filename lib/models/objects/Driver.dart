@@ -6,7 +6,7 @@ import 'package:bus_information/models/enums/DriverStatus.dart';
 import 'package:bus_information/models/enums/ObjectType.dart';
 import 'package:bus_information/models/enums/ShiftWork.dart';
 
-class Driver implements DatabaseObject {
+class Driver implements DatabaseObject,MainObject {
   String name;
   ShiftWork shiftWork;
   DriverStatus status;
@@ -51,4 +51,7 @@ class Driver implements DatabaseObject {
 
   @override
   ObjectType get type => ObjectType.driver;
+
+  @override
+  String get searchWord => name;
 }

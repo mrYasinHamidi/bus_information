@@ -8,7 +8,7 @@ import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
 import 'package:bus_information/widgets/CustomDropDown.dart';
 import 'package:bus_information/widgets/CustomInputField.dart';
-import 'package:bus_information/widgets/DriverChooser.dart';
+import 'package:bus_information/widgets/ItemChooser.dart';
 import 'package:bus_information/widgets/DriverPreviewer.dart';
 import 'package:flutter/material.dart';
 

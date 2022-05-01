@@ -6,7 +6,7 @@ import 'package:bus_information/pages/addData/AddDriverForm.dart';
 import 'package:flutter/material.dart';
 
 class AddButtonDialog extends StatefulWidget {
-  final Function(DatabaseObject)? onAddItem;
+  final Function(MainObject)? onAddItem;
   final ObjectType type;
 
   const AddButtonDialog({
@@ -107,7 +107,7 @@ class _AddButtonDialogState extends State<AddButtonDialog> {
     });
   }
 
-  _onSubmit(DatabaseObject object) {
+  _onSubmit(MainObject object) {
     _close();
     widget.onAddItem?.call(object);
   }

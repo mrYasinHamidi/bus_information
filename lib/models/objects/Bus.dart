@@ -5,7 +5,7 @@ import 'package:bus_information/abstracts/DatabaseObject.dart';
 import 'package:bus_information/models/enums/BusStatus.dart';
 import 'package:bus_information/models/enums/ObjectType.dart';
 
-class Bus implements DatabaseObject {
+class Bus implements DatabaseObject ,MainObject{
   String busNumber;
   BusStatus status;
   DateTime time = DateTime.now();
@@ -47,4 +47,7 @@ class Bus implements DatabaseObject {
 
   @override
   ObjectType get type => ObjectType.bus;
+
+  @override
+  String get searchWord => busNumber;
 }

@@ -5,12 +5,13 @@ abstract class DatabaseObject<T> {
 
   String get boxKey;
 
-  ObjectType get type;
+  DateTime get creationTime;
 
   String encode();
 
   T decode(String source);
-
-  DateTime get creationTime;
-
+}
+abstract class MainObject{
+  ObjectType get type;
+  String get searchWord;
 }

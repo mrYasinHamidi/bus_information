@@ -10,7 +10,7 @@ import 'package:bus_information/widgets/LottieViewer.dart';
 import 'package:flutter/material.dart';
 
 class ItemChooser extends StatefulWidget {
-  final List<DatabaseObject> items;
+  final List<MainObject> items;
   final ObjectType type;
 
   const ItemChooser({
@@ -25,6 +25,21 @@ class ItemChooser extends StatefulWidget {
 
 class _ItemChooserState extends State<ItemChooser> {
   Size get size => MediaQuery.of(context).size;
+  final TextEditingController _controller = TextEditingController();
+
+  List<MainObject> get _searchedItems =>
+      widget.items.where((element) => element.searchWord.toLowerCase().contains(_controller.text.trim().toLowerCase())).toList();
+
+  @override
+  void initState() {
+    _controller.addListener(() {
+      setState(() {
+
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,23 +50,27 @@ class _ItemChooserState extends State<ItemChooser> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: const TextField(
-              decoration: InputDecoration(
+            child: TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
               ),
             ),
           ),
           if (widget.items.isEmpty)
-            Expanded(child: LottieViewer(width: size.width*.5,))
+            Expanded(
+                child: LottieViewer(
+              width: size.width * .5,
+            ))
           else
             Expanded(
               child: ListView.builder(
-                itemCount: widget.items.length,
+                itemCount: _searchedItems.length,
                 itemBuilder: (BuildContext context, int index) => InkWell(
                   onTap: () {
-                    _onItemSelect(widget.items[index]);
+                    _onItemSelect(_searchedItems[index]);
                   },
-                  child: _buildItemWidget(widget.items[index]),
+                  child: _buildItemWidget(_searchedItems[index]),
                 ),
               ),
             ),
@@ -64,7 +83,7 @@ class _ItemChooserState extends State<ItemChooser> {
     );
   }
 
-  Widget _buildItemWidget(DatabaseObject item) {
+  Widget _buildItemWidget(MainObject item) {
     switch (item.type) {
       case ObjectType.bus:
         return BusItemWidget(item as Bus);
@@ -85,13 +104,15 @@ class _ItemChooserState extends State<ItemChooser> {
     return Languages.language.value.buses;
   }
 
-  void _onItemSelect(DatabaseObject item) {
+  void _onItemSelect(MainObject item) {
     Navigator.pop(context, item);
   }
 
-  void _onAddDriver(DatabaseObject item) {
+  void _onAddDriver(MainObject item) {
     setState(() {
       widget.items.insert(0, item);
     });
   }
+
+  void _search(String text) {}
 }
