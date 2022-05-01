@@ -24,12 +24,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Size get size => MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
+          drawer: Drawer(
+            child: _drawer,
+          ),
           appBar: AppBar(
             title: Text(Languages.language.value.appName),
             bottom: TabBar(
@@ -55,6 +60,61 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget get _drawer => SafeArea(
+    child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.blue.shade400,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.person),
+                    ),
+                    title: Text('یاسین حمید لکزا'),
+                    subtitle: Text('مدیر خط'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: _keyValueText(key: 'سطح دسترسی', value: 'مدیریت'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: _keyValueText(key: 'مسئول مربوطه', value: 'حسن صادقی'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: _keyValueText(key: 'تاریخ ثبت نام', value: '1400/07/15'),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(leading: const Icon(Icons.settings), title: Text(Languages.language.value.settings)),
+            ListTile(leading: const Icon(Icons.person_rounded), title: Text(Languages.language.value.drivers)),
+            ListTile(leading: const Icon(Icons.directions_bus), title: Text(Languages.language.value.buses)),
+          ],
+        ),
+  );
+
+  Row _keyValueText({String key = '', String value = ''}) {
+    return Row(
+      children: [
+        ConstrainedBox(constraints: BoxConstraints(minWidth:size.width*.3 ),
+        child: Text(key)),
+        Text(
+          value,
+          style: const TextStyle(color: Colors.black54),
+        ),
+      ],
+    );
+  }
+
   Widget _buildItemList(ObjectType type) {
     return ValueListenableBuilder(
       valueListenable: DatabaseHelper.instance.getListenable(type),
@@ -63,8 +123,8 @@ class _HomePageState extends State<HomePage> {
         if (objects.isEmpty) {
           return Center(
             child: LottieViewer(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.5,
+              width: size.width * 0.5,
+              height: size.width * 0.5,
             ),
           );
         }
@@ -108,5 +168,4 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
 }

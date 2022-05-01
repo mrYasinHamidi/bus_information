@@ -91,4 +91,7 @@ class Fa extends Languages {
 
   @override
   String get props => 'مشخصه ها';
+
+  @override
+  String get settings => 'تنظیمات';
 }

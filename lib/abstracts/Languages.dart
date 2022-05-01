@@ -63,4 +63,6 @@ abstract class Languages {
   String get addProp;
 
   String get props;
+
+  String get settings;
 }
