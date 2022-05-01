@@ -24,6 +24,7 @@ class ItemChooser extends StatefulWidget {
 }
 
 class _ItemChooserState extends State<ItemChooser> {
+  Size get size => MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +42,7 @@ class _ItemChooserState extends State<ItemChooser> {
             ),
           ),
           if (widget.items.isEmpty)
-            const Expanded(child: LottieViewer())
+            Expanded(child: LottieViewer(width: size.width*.5,))
           else
             Expanded(
               child: ListView.builder(

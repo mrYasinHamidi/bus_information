@@ -33,33 +33,35 @@ class _AddPropScreenState extends State<AddPropScreen> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: DriverPreviewer(
-                  driver: _firstDriver,
-                  emptyTitle: Languages.language.value.driver,
-                  onTap: _selectFirstDriver,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: DriverPreviewer(
+                    driver: _firstDriver,
+                    emptyTitle: Languages.language.value.driver,
+                    onTap: _selectFirstDriver,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: DriverPreviewer(
-                  driver: _secondDriver,
-                  emptyTitle: Languages.language.value.alternativeDriver,
-                  onTap: _selectSecondDriver,
+                Expanded(
+                  child: DriverPreviewer(
+                    driver: _secondDriver,
+                    emptyTitle: Languages.language.value.alternativeDriver,
+                    onTap: _selectSecondDriver,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          BusPreviewer(
-            onTap: _selectBus,
-            emptyTitle: Languages.language.value.busInformation,
-            bus: _bus,
-          ),
-        ],
+              ],
+            ),
+            BusPreviewer(
+              onTap: _selectBus,
+              emptyTitle: Languages.language.value.busInformation,
+              bus: _bus,
+            ),
+          ],
+        ),
       ),
     );
   }

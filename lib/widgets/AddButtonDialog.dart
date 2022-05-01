@@ -28,7 +28,7 @@ class _AddButtonDialogState extends State<AddButtonDialog> {
 
   bool _isOpen = false;
 
-  double get _width => _isOpen ? size.width * 0.5 : 50;
+  double get _width => _isOpen ? size.width * 0.9 : 50;
 
   double get _height => _isOpen ? size.height * .5 : 50;
 

@@ -17,16 +17,18 @@ class BusPreviewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
-      margin: const EdgeInsets.all(8),
-      decoration: bus == null ? _unSelectDecoration() : _selectDecoration(),
-      child: InkWell(
-        splashColor: Colors.black26,
-        splashFactory: InkSplash.splashFactory,
-        borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
-        child: bus == null ? _buildEmptyView() : _buildPreview(),
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.25),
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: bus == null ? _unSelectDecoration() : _selectDecoration(),
+        child: InkWell(
+          splashColor: Colors.black26,
+          splashFactory: InkSplash.splashFactory,
+          borderRadius: BorderRadius.circular(8),
+          onTap: onTap,
+          child: bus == null ? _buildEmptyView() : _buildPreview(),
+        ),
       ),
     );
   }

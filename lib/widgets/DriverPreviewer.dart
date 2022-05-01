@@ -19,16 +19,20 @@ class DriverPreviewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
-      margin: const EdgeInsets.all(8),
-      decoration: driver == null ? _unSelectDecoration() : _selectDecoration(),
-      child: InkWell(
-        splashColor: Colors.black26,
-        splashFactory: InkSplash.splashFactory,
-        borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
-        child: driver == null ? _buildEmptyView() : _buildPreview(),
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.3,
+      ),
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: driver == null ? _unSelectDecoration() : _selectDecoration(),
+        child: InkWell(
+          splashColor: Colors.black26,
+          splashFactory: InkSplash.splashFactory,
+          borderRadius: BorderRadius.circular(8),
+          onTap: onTap,
+          child: driver == null ? _buildEmptyView() : _buildPreview(),
+        ),
       ),
     );
   }
@@ -44,6 +48,7 @@ class DriverPreviewer extends StatelessWidget {
         ),
         Text(
           emptyTitle,
+          textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 24, color: Colors.white),
         ),
       ],
