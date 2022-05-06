@@ -4,6 +4,8 @@ import 'package:bus_information/models/enums/ObjectType.dart';
 import 'package:bus_information/models/objects/Bus.dart';
 import 'package:bus_information/models/objects/Driver.dart';
 import 'package:bus_information/models/objects/Prop.dart';
+import 'package:bus_information/pages/BusPage.dart';
+import 'package:bus_information/pages/DriverPage.dart';
 import 'package:bus_information/pages/addData/AddBusScreen.dart';
 import 'package:bus_information/pages/addData/AddPropScreen.dart';
 import 'package:bus_information/repository/database/DatabaseHelper.dart';
@@ -24,8 +26,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   Size get size => MediaQuery.of(context).size;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget get _drawer => SafeArea(
-    child: Column(
+        child: Column(
           children: [
             Container(
               margin: const EdgeInsets.all(8),
@@ -96,17 +98,28 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(leading: const Icon(Icons.settings), title: Text(Languages.language.value.settings)),
-            ListTile(leading: const Icon(Icons.person_rounded), title: Text(Languages.language.value.drivers)),
-            ListTile(leading: const Icon(Icons.directions_bus), title: Text(Languages.language.value.buses)),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const BusPage()));
+              },
+              leading: const Icon(Icons.person_rounded),
+              title: Text(Languages.language.value.drivers),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context)..pop()..push(MaterialPageRoute(builder: (BuildContext context) => const DriverPage()));
+              },
+              leading: const Icon(Icons.directions_bus),
+              title: Text(Languages.language.value.buses),
+            ),
           ],
         ),
-  );
+      );
 
   Row _keyValueText({String key = '', String value = ''}) {
     return Row(
       children: [
-        ConstrainedBox(constraints: BoxConstraints(minWidth:size.width*.3 ),
-        child: Text(key)),
+        ConstrainedBox(constraints: BoxConstraints(minWidth: size.width * .3), child: Text(key)),
         Text(
           value,
           style: const TextStyle(color: Colors.black54),

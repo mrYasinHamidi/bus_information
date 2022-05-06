@@ -25,14 +25,9 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -47,7 +42,7 @@ class _MyAppState extends State<MyApp> {
           },
           theme: AppThemes.themeData(false, context),
           darkTheme: AppThemes.themeData(true, context),
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.light,
           title: Languages.language.value.appName,
           debugShowCheckedModeBanner: false,
           home: const HomePage(),
@@ -56,3 +51,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
