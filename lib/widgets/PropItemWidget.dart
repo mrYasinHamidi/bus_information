@@ -14,7 +14,7 @@ class PropItemWidget extends StatelessWidget {
 
   Driver? get _driver => DatabaseHelper.instance.getDriver(prop.driverId ?? '');
 
-  Driver? get _secondDriver => DatabaseHelper.instance.getDriver(prop.driverId ?? '');
+  Driver? get _secondDriver => DatabaseHelper.instance.getDriver(prop.secondDriverId ?? '');
 
   Bus? get _bus => DatabaseHelper.instance.getBus(prop.busId ?? '');
 
@@ -46,7 +46,7 @@ class PropItemWidget extends StatelessWidget {
                       radius: 18,
                       child: Icon(Icons.person),
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 4),
+                    contentPadding:const EdgeInsets.symmetric(horizontal: 4),
                     horizontalTitleGap: 8,
                     minVerticalPadding: 4,
                     title: Text(_driver?.name ?? ''),
